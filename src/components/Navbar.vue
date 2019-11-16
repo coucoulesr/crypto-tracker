@@ -5,7 +5,7 @@
     </div>
     <div class="nav-middle"></div>
     <div class="nav-right">
-      <div class="nr-item" ref="nr-1" @click.prevent="highlight(1); $emit('current')"><router-link to="/current"><h2>Current</h2></router-link></div>
+      <div class="nr-item" ref="nr-1" @click.prevent="highlight(1); $emit('destroy')"><router-link to="/current"><h2>Current</h2></router-link></div>
       <div class="nr-item" ref="nr-2" @click.prevent="highlight(2); $emit('destroy')"><router-link to="/historic"><h2>Historic</h2></router-link></div>
       <div class="nr-item" ref="nr-3" @click.prevent="highlight(3); $emit('destroy')"><router-link to="/to-date"><h2>To-Date</h2></router-link></div>
     </div>
