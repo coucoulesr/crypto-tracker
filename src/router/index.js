@@ -1,6 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import GraphRange from '../views/GraphRange';
+import GraphToDate from '../views/GraphToDate';
+import Current from '../views/Current';
 
 Vue.use(VueRouter);
 
@@ -11,14 +14,20 @@ const routes = [
     component: Home
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+    path: "/current",
+    name: "current",
+    component: Current
+  },
+  {
+    path: "/to-date",
+    name: "GraphToDate",
+    component: GraphToDate
+  },
+  {
+    path: "/historic",
+    name: "GraphRange",
+    component: GraphRange
+  },
 ];
 
 const router = new VueRouter({
