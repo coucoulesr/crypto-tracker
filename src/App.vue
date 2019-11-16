@@ -57,7 +57,8 @@ export default {
             datasets: [
               {
                 label: payload.crypto + " historical price, " + payload.currency.toUpperCase(),
-                pointRadius: 1,
+                pointRadius: 1.75,
+                pointHitRadius: 2,
                 backgroundColor: "rgba(82, 101, 143, 0.2)",
                 borderColor: "#333A56",
                 color: "#333A56",
