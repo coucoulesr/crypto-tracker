@@ -53,7 +53,7 @@ export default {
   },
   methods: { 
     generateGraph: function(payload) {
-      if (this.chart) this.destroy();
+      this.destroy();
       this.chart = new Chart(this.$refs.myChart, {
           type: "line",
           data: {
@@ -78,10 +78,12 @@ export default {
       this.calculatePerformance(payload.values, payload.currency)
     },
     destroy: function() {
+      if (this.chart) {
       this.chart.destroy();
       this.chart = null;
       this.overallChange = null;
       this.percentChange = null;
+      }
     },
     calculatePerformance: function(valueArray, currency) {
       const final = valueArray[valueArray.length - 1];
