@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navbar @home="home" @destroy="destroy"/>
+    <navbar @destroy="destroy"/>
     <div class="container">
       <div class="graph-box">
         <router-view @generateGraph="generateGraph" />
