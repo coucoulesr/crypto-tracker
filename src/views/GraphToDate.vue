@@ -1,7 +1,7 @@
 <template>
   <div>
   <h2>Cryptocurrency To-Date Price</h2>
-    <form class="date-form">
+    <form @submit.prevent="graphData" class="date-form">
       <select v-model="crypto" name="crypto" required>
         <option disabled value>Select a cryptocurrency</option>
         <option value="bitcoin">Bitcoin</option>
@@ -23,7 +23,7 @@
       </select>
       <label for="start-date" v-if="timeFrame == 'custom'">Start Date:</label>
       <input type="date" id="start-date" v-model="customDays" v-if="timeFrame == 'custom'" />
-      <input type="submit" @click.prevent="graphData" value="Submit">
+      <input type="submit" value="Submit">
     </form>
   </div>
 </template>

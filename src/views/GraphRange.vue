@@ -22,7 +22,7 @@
         <option value="eur">Euro (€)</option>
         <option value="jpy">Japanese Yen (¥)</option>
       </select>
-      <input type="submit" @click.prevent="graphData" value="Submit" />
+      <input type="submit" value="Submit" />
     </form>
     </div>
 </template>

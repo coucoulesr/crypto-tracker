@@ -1,7 +1,7 @@
 <template>
   <div>
   <h2>Cryptocurrency Current Data (24 Hours)</h2>
-    <form class="date-form">
+    <form @submit.prevent="graphData" class="date-form">
       <select v-model="crypto" name="crypto" required>
         <option disabled value>Select a cryptocurrency</option>
         <option value="bitcoin">Bitcoin</option>
@@ -14,7 +14,7 @@
         <option value="eur">Euro (€)</option>
         <option value="jpy">Japanese Yen (¥)</option>
       </select>
-      <input type="submit" @click.prevent="graphData" value="Submit">
+      <input type="submit" value="Submit">
     </form>
   </div>
 </template>
