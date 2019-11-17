@@ -69,6 +69,10 @@ export default {
   },
   methods: {
     graphData: function() {
+      if(this.startDaysAgo <= 0) {
+        alert("Please enter a start date in the past.");
+        return null;
+      }
       const url = ['https://api.coingecko.com/api/v3/coins/', 
       this.crypto,
       '/market_chart?vs_currency=',

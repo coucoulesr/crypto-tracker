@@ -57,6 +57,10 @@ export default {
   },
   methods: {
     graphData: function() {
+      if (this.endUnix - this.startUnix < 0) {
+        alert('Start date cannot be before end date.');
+        return null;
+      }
       const url = [
         "https://api.coingecko.com/api/v3/coins/",
         this.crypto,
