@@ -57,7 +57,7 @@ export default {
           const yearStart = moment(moment().year().toString() + "-01-01");
           return moment().diff(yearStart, 'days') + 1;
         case 'month':
-          const monthStart = moment(moment().year().toString() + '-' + moment().month().toString() + '-01');
+          const monthStart = moment(moment().year().toString() + '-' + (moment().month() + 1).toString() + '-01');
           return moment().diff(monthStart, 'days');
         case 'week':
           return moment().weekday();
