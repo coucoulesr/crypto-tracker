@@ -57,10 +57,17 @@ export default {
   },
   methods: {
     graphData: function() {
-      if (this.endUnix - this.startUnix < 0) {
-        alert('Start date cannot be before end date.');
-        return null;
+      if (this.endUnix > moment().unix()) {
+          alert('End date must be in the past.');
+          return null;
+      } else if (this.endUnix - this.startUnix < 0) {
+          alert('Start date cannot be before end date.');
+          return null;
+      } else if (this.endUnix == this.startUnix) {
+          alert('Please enter different dates.');
+          return null;
       }
+
       const url = [
         "https://api.coingecko.com/api/v3/coins/",
         this.crypto,

@@ -62,14 +62,14 @@ export default {
         case 'week':
           return moment().weekday();
       } /* eslint-enable no-case-declarations */
-      if (this.customDays) {
+      if (this.customDays && moment(this.customDays).unix() <= moment().unix()) {
         return moment().diff(moment(this.customDays), 'days');
-      } else { return null; }
+      } else { return undefined; }
     },
   },
   methods: {
     graphData: function() {
-      if(this.startDaysAgo <= 0) {
+      if(this.startDaysAgo < 0 || typeof this.startDaysAgo == "undefined") {
         alert("Please enter a start date in the past.");
         return null;
       }
