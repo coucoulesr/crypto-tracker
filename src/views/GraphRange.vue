@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <h2>Cryptocurrency Historical Price</h2>
     <form class="date-form" @submit.prevent="graphData">
       <div>
@@ -24,18 +24,11 @@
       </select>
       <input type="submit" value="Submit" />
     </form>
-    </div>
+  </div>
 </template>
 
 <script>
-import axios from "axios"; //eslint-disable-line
-import moment from "moment"; //eslint-disable-line
-
-const cryptoDict = {
-  'bitcoin': ['Bitcoin', 'BTC'],
-  'ethereum': ['Ethereum', 'ETH'],
-  'bitcoin-cash': ['Bitcoin Cash', 'BCH']
-}
+import moment from "moment";
 
 export default {
   name: "GraphRange",
@@ -44,7 +37,7 @@ export default {
       crypto: "",
       currency: "",
       start: null,
-      end: null,
+      end: null
     };
   },
   computed: {
@@ -58,17 +51,16 @@ export default {
   methods: {
     graphData: function() {
       if (this.endUnix > moment().unix()) {
-          alert('End date must be in the past.');
-          return null;
+        alert("End date must be in the past.");
+        return null;
       } else if (this.endUnix - this.startUnix < 0) {
-          alert('Start date cannot be before end date.');
-          return null;
+        alert("Start date cannot be before end date.");
+        return null;
       } else if (this.endUnix == this.startUnix) {
-          alert('Please enter different dates.');
-          return null;
+        alert("Please enter different dates.");
+        return null;
       }
-
-      const url = [
+      const urlArray = [
         "https://api.coingecko.com/api/v3/coins/",
         this.crypto,
         "/market_chart/range?vs_currency=",
@@ -78,34 +70,13 @@ export default {
         "&to=",
         this.endUnix.toString()
       ];
-      axios.get(url.join("")).then(
-        res => {
-          let dates = [];
-          let values = [];
-          
-          const prices = res.data.prices;
-          let thinRatio = 1000;
-          if (prices.length >= 50) {
-            thinRatio = Math.ceil( 1 + 250 / prices.length );
-          }
-
-          prices.forEach((entry, index) => {
-
-            if (index % thinRatio == 0) {
-              return null;
-            }
-            dates.push(
-              moment.unix(entry[0] / 1000).format("MMM Do, 'YY h:mm A")
-            );
-            values.push(Math.round(entry[1] * 100) / 100);
-          });
-
-          this.$emit('generateGraph', {dates: dates, values: values, crypto: cryptoDict[this.crypto][0], currency: this.currency})
-        },
-        err => {
-          if (err) alert(err);
-        }
-      );
+      const dateFormat = "MMM DD, 'YY h:mm A";
+      this.$emit("generateGraph", {
+        url: urlArray.join(""),
+        dateFormat: dateFormat,
+        crypto: this.crypto,
+        currency: this.currency
+      });
     }
   },
   components: {}

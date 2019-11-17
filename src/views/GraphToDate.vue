@@ -33,12 +33,6 @@ import axios from "axios"; //eslint-disable-line
 import moment from "moment"; //eslint-disable-line
 import Chart from "chart.js"; //eslint-disable-line
 
-const cryptoDict = {
-  'bitcoin': ['Bitcoin', 'BTC'],
-  'ethereum': ['Ethereum', 'ETH'],
-  'bitcoin-cash': ['Bitcoin Cash', 'BCH']
-}
-
 export default {
   name: "GraphToDate",
   data: function() {
@@ -73,41 +67,22 @@ export default {
         alert("Please enter a start date in the past.");
         return null;
       }
-      const url = ['https://api.coingecko.com/api/v3/coins/', 
+      const urlArray = [
+        'https://api.coingecko.com/api/v3/coins/', 
       this.crypto,
       '/market_chart?vs_currency=',
       this.currency,
       '&days=',
-      this.startDaysAgo]
-
-      axios.get(url.join("")).then(
-        res => {
-          let dates = [];
-          let values = [];
-
-          const prices = res.data.prices;          
-          let thinRatio = 1000;            // value corresponds to simple data decimation function; every nth data point is thrown away
-          if (prices.length >= 50) {
-            thinRatio = Math.ceil( 1 + 250 / prices.length );
-          }
-
-          // Populate histDates (x) and histValues (y) with price data
-          prices.forEach((entry, index) => {
-            if (index % thinRatio == 0) {
-              return null;
-            }
-            dates.push(
-              moment.unix(entry[0] / 1000).format("MMM Do, 'YY h:mm A")
-            );
-            values.push(Math.round(entry[1] * 100) / 100);
-          });
-
-          this.$emit('generateGraph', {dates: dates, values: values, crypto: cryptoDict[this.crypto][0], currency: this.currency});
-        },
-        err => {
-          if (err) alert(err);
-        }
-      );
+      this.startDaysAgo
+      ]
+      const dateFormat = "MMM DD, 'YY h:mm A"
+      this.$emit('generateGraph', {
+        url: urlArray.join(''), 
+        dateFormat: dateFormat, 
+        crypto: this.crypto, 
+        currency: this.currency
+      });
+      
     },
   },
   components: {},

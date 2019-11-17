@@ -20,12 +20,20 @@
 
 <script>
 import Navbar from "./components/Navbar";
+import axios from 'axios';
+import moment from 'moment';
 import Chart from 'chart.js';
 
 const currencyDict = {
   'usd' : ['$', "US Dollar"],
   'eur' : ['€', "Euro"],
   'jpy' : ['¥', "Japanese Yen"]
+}
+
+const cryptoDict = {
+  'bitcoin': ['Bitcoin', 'BTC'],
+  'ethereum': ['Ethereum', 'ETH'],
+  'bitcoin-cash': ['Bitcoin Cash', 'BCH']
 }
 
 export default {
@@ -52,21 +60,47 @@ export default {
       }
   },
   methods: { 
-    generateGraph: function(payload) {
+    generateGraph: async function(payload) {
       this.destroy();
+
+      var dates = [];
+      var values = [];
+
+      const prices = (await axios.get(payload.url)).data.prices
+
+      if (typeof prices == "undefined") {
+        return null;
+      }
+
+      let thinRatio = 1000; // value corresponds to simple data decimation function; every nth data point is thrown away
+      if (prices.length >= 50) {
+        thinRatio = Math.ceil( 1 + 250 / prices.length );
+      }
+
+      // Populate dates (x) and values (y) with price data
+      prices.forEach((entry, index) => {
+        if (index % thinRatio == 0) {
+          return null;
+        }
+        dates.push(
+          moment.unix(entry[0] / 1000).format(payload.dateFormat)
+        );
+        values.push(Math.round(entry[1] * 100) / 100);
+      });
+
       this.chart = new Chart(this.$refs.myChart, {
           type: "line",
           data: {
-            labels: payload.dates,
+            labels: dates,
             datasets: [
               {
-                label: payload.crypto + " historical price, " + payload.currency.toUpperCase(),
+                label: cryptoDict[payload.crypto][0] + " historical price, " + payload.currency.toUpperCase(),
                 pointRadius: 1.75,
                 pointHitRadius: 2,
                 backgroundColor: "rgba(82, 101, 143, 0.2)",
                 borderColor: "#333A56",
                 color: "#333A56",
-                data: payload.values
+                data: values
               }
             ]
           },
@@ -75,7 +109,7 @@ export default {
             // legend: { display: false }
           }
         });
-      this.calculatePerformance(payload.values, payload.currency)
+      this.calculatePerformance(values, payload.currency)
     },
     destroy: function() {
       if (this.chart) {
