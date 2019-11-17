@@ -7,8 +7,10 @@
         <canvas id="my-chart" :class="!chart ? 'hidden' : ''" ref="myChart" width="400" height="300"></canvas>
         <div class="performance" :class="!chart ? 'hidden' : ''"><h2>Performance:</h2>
           <div class="stats">
+            <div><h3>Opening Value: {{ currencySymbol }}{{ openingValue }} </h3>
+            <h3>Latest Value: {{ currencySymbol }}{{ latestValue }} </h3></div>
             <div><h3>Percent Change: </h3> <h3 :class="percentChange >= 0 ? 'green' : 'red'"> {{ percentRounded }} % </h3></div>
-            <div><h3>Overall Change: </h3> <h3 :class="overallChange >= 0 ? 'green' : 'red'"> {{ overallRounded }} {{ currencySymbol }}</h3></div>
+            <div><h3>Overall Change: </h3> <h3 :class="overallChange >= 0 ? 'green' : 'red'"> {{ currencySymbol }} {{ overallRounded }} </h3></div>
           </div>
         </div>
       </div>
@@ -31,6 +33,8 @@ export default {
   data: function() {
     return {
       chart: null,
+      openingValue: null,
+      latestValue: null,
       overallChange: null,
       percentChange: null,
       currencySymbol: null
@@ -82,6 +86,8 @@ export default {
     calculatePerformance: function(valueArray, currency) {
       const final = valueArray[valueArray.length - 1];
       const initial = valueArray[0]
+      this.openingValue = initial;
+      this.latestValue = final;
       this.overallChange = final - initial;
       this.percentChange = (final - initial) * 100 / initial;
       this.currencySymbol = currencyDict[currency][0]
