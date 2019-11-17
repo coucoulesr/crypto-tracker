@@ -49,10 +49,10 @@ export default {
   },
   computed: {
     startUnix: function() {
-      return Date.parse(this.start) / 1000;
+      return moment(this.start).unix();
     },
     endUnix: function() {
-      return Date.parse(this.end) / 1000;
+      return moment(this.end).unix();
     }
   },
   methods: {
