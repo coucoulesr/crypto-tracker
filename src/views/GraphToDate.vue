@@ -47,7 +47,6 @@ export default {
       customDays: null,
       crypto: "",
       currency: "",
-      chart: null,
     };
   },
   computed: {
